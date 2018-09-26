@@ -1,97 +1,117 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * User
- *
- * @ORM\Table(name="user")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
- */
-class User
+* @ORM\Entity
+* @UniqueEntity(fields="email", message="Email already taken")
+* @UniqueEntity(fields="username", message="Username already taken")
+*/
+class User implements UserInterface
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
+        /**
+        * @ORM\Id
+        * @ORM\Column(type="integer")
+        * @ORM\GeneratedValue(strategy="AUTO")
+        */
+        private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="firstname", type="string", length=255)
-     */
-    private $firstname;
+        /**
+        * @ORM\Column(type="string", length=255, unique=true)
+        * @Assert\NotBlank()
+        * @Assert\Email()
+        */
+        private $email;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="lastname", type="string", length=255)
-     */
-    private $lastname;
+        /**
+        * @ORM\Column(type="string", length=255, unique=true)
+        * @Assert\NotBlank()
+        */
+        private $username;
 
+        /**
+        * @Assert\NotBlank()
+        * @Assert\Length(max=4096)
+        */
+        private $plainPassword;
 
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+        /**
+        * The below length depends on the "algorithm" you use for encoding
+        * the password, but this works well with bcrypt.
+        *
+        * @ORM\Column(type="string", length=64)
+        */
+        private $password;
 
-    /**
-     * Set firstname
-     *
-     * @param string $firstname
-     *
-     * @return User
-     */
-    public function setFirstname($firstname)
-    {
-        $this->firstname = $firstname;
+        /**
+        * @ORM\Column(type="array")
+        */
+        private $roles;
 
-        return $this;
-    }
+        public function __construct()
+        {
+        $this->roles = array('ROLE_USER');
+        }
 
-    /**
-     * Get firstname
-     *
-     * @return string
-     */
-    public function getFirstname()
-    {
-        return $this->firstname;
-    }
+        // other properties and methods
 
-    /**
-     * Set lastname
-     *
-     * @param string $lastname
-     *
-     * @return User
-     */
-    public function setLastname($lastname)
-    {
-        $this->lastname = $lastname;
+        public function getEmail()
+        {
+        return $this->email;
+        }
 
-        return $this;
-    }
+        public function setEmail($email)
+        {
+        $this->email = $email;
+        }
 
-    /**
-     * Get lastname
-     *
-     * @return string
-     */
-    public function getLastname()
-    {
-        return $this->lastname;
-    }
+        public function getUsername()
+        {
+        return $this->username;
+        }
+
+        public function setUsername($username)
+            {
+            $this->username = $username;
+            }
+
+        public function getPlainPassword()
+        {
+        return $this->plainPassword;
+        }
+
+        public function setPlainPassword($password)
+        {
+        $this->plainPassword = $password;
+        }
+
+        public function getPassword()
+        {
+        return $this->password;
+        }
+
+        public function setPassword($password)
+        {
+        $this->password = $password;
+        }
+
+        public function getSalt()
+        {
+        // The bcrypt and argon2i algorithms don't require a separate salt.
+        // You *may* need a real salt if you choose a different encoder.
+        return null;
+        }
+
+        public function getRoles()
+        {
+        return $this->roles;
+        }
+
+        public function eraseCredentials()
+        {
+        }
 }
-
