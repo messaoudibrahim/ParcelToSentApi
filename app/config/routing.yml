@@ -1,6 +1,15 @@
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
-users:
-    type:     rest
-    resource: AppBundle\Controller\UserController
+
+api_login_check:
+    path: /api/login_check
+
+register:
+    path: /register
+    controller: Appbundle\Controller\AuthController::register
+    methods: POST
+
+api:
+    path: /api
+    controller: Appbundle\Controller\AuthController::api
