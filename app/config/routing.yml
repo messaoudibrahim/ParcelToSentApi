@@ -2,14 +2,15 @@ app:
     resource: '@AppBundle/Controller/'
     type: annotation
 
-api_login_check:
-    path: /api/login_check
-
 register:
     path: /register
-    controller: Appbundle\Controller\AuthController::register
+    controller: AppBundle:Auth:register
     methods: POST
 
 api:
     path: /api
-    controller: Appbundle\Controller\AuthController::api
+    controller: TestBundle:Api\Post:getPost
+
+login_check:
+    path:     /login_check
+    methods:  [POST]

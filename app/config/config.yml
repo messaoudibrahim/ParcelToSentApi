@@ -7,6 +7,7 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    secret_passphrase: brahim
 
 framework:
     #esi: ~
@@ -36,9 +37,18 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
 
+lexik_jwt_authentication:
+    secret_key:       '%kernel.project_dir%/config/jwt/private.pem' # required for token creation
+    public_key:       '%kernel.project_dir%/config/jwt/public.pem'  # required for token verification
+    pass_phrase:      '%secret_passphrase%' # required for token creation, usage of an environment variable is recommended
+    token_ttl:        3600
+
 # Doctrine Configuration
 doctrine:
     dbal:
+
+        mapping_types:
+            enum:       string
         driver: pdo_mysql
         host: '%database_host%'
         port: '%database_port%'
@@ -82,8 +92,3 @@ fos_rest:
         rules:
         - { path: '^/', priorities: ['json'], fallback_format: 'json' }
 
-lexik_jwt_authentication:
-    secret_key:       '%kernel.project_dir%/config/jwt/private.pem' # required for token creation
-    public_key:       '%kernel.project_dir%/config/jwt/public.pem'  # required for token verification
-    pass_phrase:      '%secret_passphrase%' # required for token creation, usage of an environment variable is recommended
-    token_ttl:        3600

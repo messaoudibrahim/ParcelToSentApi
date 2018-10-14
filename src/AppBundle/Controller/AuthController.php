@@ -15,16 +15,24 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * Class AuthController
+ * @package AppBundle\Controller
+ */
 class AuthController extends AbstractController
 {
-
-    public function register(Request $request, UserPasswordEncoderInterface $encoder)
+    /**
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $encoder
+     * @return Response
+     */
+    public function registerAction(Request $request, UserPasswordEncoderInterface $encoder)
     {
         ;
         $em = $this->getDoctrine()->getManager();
 
-        $username = $request->request->get('_username');
-        $password = $request->request->get('_password');
+        $username = $request->request->get('username');
+        $password = $request->request->get('password');
 
         ;
         $user = new User($username);
