@@ -18,9 +18,13 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 /**
  * Class AuthController
  * @package AppBundle\Controller
+ * @method handleView($view)
+ * @method view($data, $int)
  */
 class AuthController extends AbstractController
 {
+
+
     /**
      * @param Request $request
      * @param UserPasswordEncoderInterface $encoder
@@ -28,7 +32,7 @@ class AuthController extends AbstractController
      */
     public function registerAction(Request $request, UserPasswordEncoderInterface $encoder)
     {
-        ;
+
         $em = $this->getDoctrine()->getManager();
 
         $username = $request->request->get('username');
@@ -49,4 +53,6 @@ class AuthController extends AbstractController
     {
         return new Response(sprintf('Logged in as %s', $this->getUser()->getUsername()));
     }
+
+
 }

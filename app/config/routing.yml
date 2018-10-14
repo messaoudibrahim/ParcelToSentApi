@@ -7,10 +7,9 @@ register:
     controller: AppBundle:Auth:register
     methods: POST
 
-api:
-    path: /api
-    controller: TestBundle:Api\Post:getPost
-
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc
 login_check:
     path:     /login_check
     methods:  [POST]

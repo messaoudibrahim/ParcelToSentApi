@@ -31,6 +31,8 @@ framework:
     assets: ~
     php_errors:
         log: true
+    templating:
+        engines: ['twig']
 
 # Twig Configuration
 twig:
@@ -92,3 +94,4 @@ fos_rest:
         rules:
         - { path: '^/', priorities: ['json'], fallback_format: 'json' }
 
+nelmio_api_doc: ~

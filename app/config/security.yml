@@ -3,6 +3,7 @@
 security:
     encoders:
         AppBundle\Entity\User:
+            ## encrypt the password or the user
             algorithm: bcrypt
 
     providers:
@@ -29,9 +30,11 @@ security:
             anonymous: true
 
         api:
-            pattern:  ^/api
+            ## put the security after my api/doc path
+            pattern:  ^/doc
             stateless: true
             anonymous: false
+            ## prvider can be fos user bundle or othor
             provider: entity_provider
             guard:
                 authenticators:
